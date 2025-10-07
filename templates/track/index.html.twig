@@ -8,6 +8,11 @@
 
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <h1>
+            Rechercher des titres
+        </h1>
+        {% for data in data %}
+            <p> {{ data.name }} </p>
+        {% endfor %}
     </body>
 </html>
