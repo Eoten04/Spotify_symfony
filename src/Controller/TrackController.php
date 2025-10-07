@@ -22,22 +22,36 @@ class TrackController extends AbstractController
         $this->httpClient = HttpClient::create();
     }
 
-    #[Route('/', name: 'app_track_index')]
+    #[Route('/', name: 'app_track')]
     public function index(): Response
     {
-        $response = $this->httpClient->request('GET', 'https://api.spotify.com/v1/search?offset=0&limit=20&query=freeze%20corleone&type=track&locale=fr-FR',
-        [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $this->token,
-            ]
-        ])->toArray();
 
-        return $this->render('track/index.html.twig', [
-            'controller_name' => 'TrackController',
-            'data' => $response['tracks']['items'],
-        ]);
+        return $this->render('track/index.html.twig');
     }
 
+    #[Route('/response', name: 'app_track_response', methods: ['GET', 'POST'])]
+    public function response(Request $request): Response
+    {
+        $artist = $request->request->get('search');
 
+        if (!$artist) {
+            return $this->redirectToRoute('app_track');
+        }
 
+        $response = $this->httpClient->request(
+            'GET',
+            'https://api.spotify.com/v1/search?query=' . urlencode($artist) . '&type=track&locale=fr_FR',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->token,
+                ],
+            ]
+        )->toArray();
+        $data = $response['tracks']['items'] ?? [];
+//dd($data);
+        return $this->render('track/response.html.twig', [
+            'data' => $data,
+            'artist' => $artist,
+        ]);
+        }
 }

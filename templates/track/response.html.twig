@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}track{% endblock %}</title>
+        {% block stylesheets %}
+        {% endblock %}
+<style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 40px;
+                background-color: #f9f9f9;
+                text-align: center;
+            }
+            h1 {
+                color: #1DB954;
+            }
+            a.track-link {
+                display: block;
+                margin: 5px 0;
+                text-decoration: none;
+                color: #000;
+                transition: color 0.2s ease;
+            }
+            a.track-link:hover {
+                color: #1DB954;
+            }
+            .back-btn {
+                display: inline-block;
+                margin-top: 30px;
+                padding: 10px 20px;
+                background-color: #1DB954;
+                color: white;
+                font-weight: bold;
+                text-decoration: none;
+                border-radius: 25px;
+                transition: background-color 0.3s ease;
+            }
+            .back-btn:hover {
+                background-color: #17a74a;
+            }
+        </style>
+    </head>
+    <body>
+            <a href="{{ path('app_track') }}" class="back-btn">Retour à la recherche</a>
+            <h1>Résultat pour "{{ artist }}"</h1>
+
+            {% for item in data %}
+                <a href="https://open.spotify.com/intl-fr/track/{{ item.id }}" target="_blank" class="track-link">
+                    {{ item.name }}
+                </a>
+                <br/>
+            {% else %}
+                <p>Aucun résultat trouvé.</p>
+            {% endfor %}
+
+        </body>
+</html>
