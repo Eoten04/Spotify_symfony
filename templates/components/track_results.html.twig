@@ -1,20 +1,27 @@
-{# templates/components/track_results.html.twig #}
-
 {% if tracks is not empty %}
-    <ul>
+    <div class="tracks-grid">
         {% for track in tracks %}
-            <li>
-                {% if track.album.images is defined and track.album.images[0] is defined %}
-                    <img src="{{ track.album.images[0].url }}" alt="{{ track.name }}">
-                {% endif %}
-                <div class="track-info">
-                    <strong>{{ track.name }}</strong>
-                    <span>Artiste : {{ track.artists[0].name ?? 'Inconnu' }}</span>
-                    <span>Album : {{ track.album.name ?? 'Non spécifié' }}</span>
+            <article class="track-card">
+                <div class="track-thumb">
+                    {% if track.album.images is defined and track.album.images[0] is defined %}
+                        <img src="{{ track.album.images[0].url }}" alt="{{ track.name }}">
+                    {% else %}
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="4" fill="#1f2937"/></svg>
+                    {% endif %}
                 </div>
-            </li>
+                <div class="track-meta">
+                    <div class="track-title">{{ track.name }}</div>
+                    <div class="track-artist">{{ track.artists[0].name ?? 'Inconnu' }}</div>
+                    <div class="track-album muted">{{ track.album.name ?? 'Non spécifié' }}</div>
+                </div>
+                <div class="track-actions">
+                    <a class="btn-ghost" href="https://open.spotify.com/track/{{ track.id }}" target="_blank" rel="noopener">Écouter</a>
+                    <input class="like-checkbox" type="checkbox" id="like-{{ track.id }}" />
+                    <label class="btn-like" for="like-{{ track.id }}" aria-label="J'aime {{ track.name }}">❤</label>
+                </div>
+            </article>
         {% endfor %}
-    </ul>
+    </div>
 {% else %}
-    <p>Aucun résultat trouvé pour "{{ search }}".</p>
+    <div class="empty-state">Aucun résultat trouvé pour "{{ search }}".</div>
 {% endif %}

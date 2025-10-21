@@ -25,9 +25,13 @@ class TrackController extends AbstractController
     #[Route('/{search?}', name: 'app_track_index')]
     public function index(?string $search): Response
     {
-        dump($search);
+        $tracks = [];
+        if ($search && trim($search) !== '') {
+            $tracks = $this->spotifyRequestService->searchTracks($search, $this->token);
+        }
+
         return $this->render('track/index.html.twig', [
-            'tracks' => $this->spotifyRequestService->searchTracks($search ?: "kazzey", $this->token),
+            'tracks' => $tracks,
             'search' => $search,
         ]);
     }

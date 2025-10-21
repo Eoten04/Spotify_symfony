@@ -1,3 +1,63 @@
-body {
-    background-color: skyblue;
+
+/* Global */
+:root{
+    --bg:#0f1114;
+    --card:#121317;
+    --muted:#9aa0a6;
+    --accent:#1DB954;
+    --glass: rgba(255,255,255,0.04);
 }
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg,#070809 0%, #0f1114 60%);
+    color:#e6eef3;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+.container{max-width:1200px;margin:40px auto;padding:0 20px}
+h1{color:var(--accent);margin-bottom:18px}
+
+/* Search area */
+.search{display:flex;justify-content:center;margin-bottom:28px}
+.search form{display:flex;gap:12px;background:var(--card);padding:12px 16px;border-radius:999px;align-items:center;box-shadow:0 6px 20px rgba(0,0,0,0.6)}
+.search input[type="text"]{background:transparent;border:0;border-bottom:2px solid transparent;padding:10px 12px;color:inherit;outline:none;width:300px}
+.search input[type="text"]::placeholder{color:var(--muted)}
+.search button{background:var(--accent);border:0;color:#07110a;padding:10px 18px;border-radius:999px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(29,185,84,0.12);transition:transform .12s ease}
+.search button:hover{transform:translateY(-2px)}
+
+/* Grid results */
+.tracks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+.track-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:12px;padding:14px;display:flex;gap:12px;align-items:center;box-shadow:0 10px 30px rgba(2,6,23,0.6);transition:transform .18s ease, box-shadow .18s ease}
+.track-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.7)}
+.track-thumb{flex:0 0 64px;height:64px;border-radius:8px;overflow:hidden;background:linear-gradient(135deg,#111,#222);display:flex;align-items:center;justify-content:center}
+.track-thumb img{width:100%;height:100%;object-fit:cover}
+.track-meta{flex:1;min-width:0}
+.track-title{font-size:15px;font-weight:700;color:#fff;margin:0 0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track-artist{font-size:13px;color:var(--muted);margin:0}
+.track-album{font-size:12px;color:rgba(170,180,190,0.5);margin-top:6px}
+
+.track-actions{display:flex;gap:8px;align-items:center}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:8px;color:var(--muted);cursor:pointer}
+.btn-ghost:hover{color:#fff}
+.btn-like{background:transparent;border:0;color:var(--muted);font-size:16px;padding:8px;border-radius:8px;cursor:pointer;transition:transform .12s ease,color .12s ease;display:inline-flex;align-items:center;justify-content:center}
+.btn-like:hover{transform:translateY(-2px);color:var(--accent)}
+.like-checkbox{display:none}
+/* when checkbox is checked, style the label as active */
+.like-checkbox:checked + .btn-like{color:var(--accent);transform:scale(1.05)}
+
+/* Empty state */
+.empty-state{padding:40px;text-align:center;color:var(--muted)}
+
+/* Responsive */
+@media (max-width:720px){
+    .search input[type="text"]{width:180px}
+    .track-card{padding:12px}
+    .track-thumb{width:54px;height:54px}
+}
+
+/* Small helpers */
+.muted{color:var(--muted)}
+
