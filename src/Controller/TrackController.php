@@ -22,24 +22,21 @@ class TrackController extends AbstractController
         $this->token = $this->authSpotifyService->auth();
     }
 
-    #[Route('/', name: 'app_track_index')]
-    public function index(): Response
+    #[Route('/{search?}', name: 'app_track_index')]
+    public function index(?string $search): Response
     {
-        return $this->render('track/index.html.twig');
+        dump($search);
+        return $this->render('track/index.html.twig', [
+            'tracks' => $this->spotifyRequestService->searchTracks($search ?: "kazzey", $this->token),
+            'search' => $search,
+        ]);
     }
 
-    #[Route('/show', name: 'app_track_show')]
-    public function show(Request $request): Response
+    #[Route('/show/{id}', name: 'app_track_show')]
+    public function show(string $id): Response
     {
-        $search = $request->query->get('search');
-        $results = [];
-        if ($search) {
-            $results = $this->spotifyRequestService->searchTracks($search, $this->token);
-        }
-
         return $this->render('track/show.html.twig', [
-            'results' => $results,
-            'search' => $search,
+            'track' => $this->spotifyRequestService->getTrack($id, $this->token),
         ]);
     }
 }

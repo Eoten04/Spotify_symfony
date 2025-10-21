@@ -1,89 +1,16 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}track{% endblock %}</title>
-        {% block stylesheets %}
-        {% endblock %}
-<style>
-            /* Style despi */
-            body {
-                font-family: "Inter", sans-serif;
-                background-color: #121212;
-                color: #fff;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                height: 100vh;
-                margin: 0;
-            }
+{% extends 'base.html.twig' %}
 
-            h1 {
-                color: #1DB954;
-                font-size: 2rem;
-                margin-bottom: 30px;
-                letter-spacing: 1px;
-            }
+{% block title %}Hello MusiqueController!{% endblock %}
 
-            form {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                background-color: #1e1e1e;
-                padding: 20px 30px;
-                border-radius: 50px;
-                box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-            }
+{% block body %}
+    <div class="search">
+        {{ render(path('app_include_search_form')) }}
+    </div>
 
-            input[type="text"] {
-                background: transparent;
-                border: none;
-                border-bottom: 2px solid #1DB954;
-                color: #fff;
-                font-size: 16px;
-                padding: 8px 5px;
-                width: 250px;
-                outline: none;
-                transition: border-color 0.3s ease;
-            }
-
-            input[type="text"]:focus {
-                border-color: #1ed760;
-            }
-
-            button {
-                background-color: #1DB954;
-                border: none;
-                color: #fff;
-                font-weight: bold;
-                border-radius: 25px;
-                padding: 10px 20px;
-                cursor: pointer;
-                transition: background-color 0.3s ease, transform 0.1s ease;
-            }
-
-            button:hover {
-                background-color: #1ed760;
-                transform: scale(1.05);
-            }
-
-            button:active {
-                transform: scale(0.97);
-            }
-
-            ::placeholder {
-                color: #aaa;
-                font-style: italic;
-            }
-        </style>
-    </head>
-    <body>
-            <h1>Rechercher des titres</h1>
-            {# Utiliser GET vers la route show pour afficher les résultats sans dépendre d'une route POST inexistante #}
-            <form action="{{ path('app_track_show') }}" method="GET">
-                <input type="text" name="search" placeholder="Entrez le nom d’un artiste..." required>
-                <button type="submit">Rechercher</button>
-            </form>
-        </body>
-</html>
+    {% if tracks is not empty %}
+    <h1> Résultat de la recherche</h1>
+    <div>
+        {% include 'components/track_results.html.twig' with {'tracks': tracks, 'search': search} %}
+    </div>
+    {% endif %}
+{% endblock %}
