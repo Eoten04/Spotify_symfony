@@ -1,0 +1,20 @@
+{# templates/components/track_results.html.twig #}
+
+{% if tracks is not empty %}
+    <ul>
+        {% for track in tracks %}
+            <li>
+                {% if track.album.images is defined and track.album.images[0] is defined %}
+                    <img src="{{ track.album.images[0].url }}" alt="{{ track.name }}">
+                {% endif %}
+                <div class="track-info">
+                    <strong>{{ track.name }}</strong>
+                    <span>Artiste : {{ track.artists[0].name ?? 'Inconnu' }}</span>
+                    <span>Album : {{ track.album.name ?? 'Non spécifié' }}</span>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Aucun résultat trouvé pour "{{ search }}".</p>
+{% endif %}

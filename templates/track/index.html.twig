@@ -80,7 +80,8 @@
     </head>
     <body>
             <h1>Rechercher des titres</h1>
-            <form action="{{ path('app_track_response') }}" method="POST">
+            {# Utiliser GET vers la route show pour afficher les résultats sans dépendre d'une route POST inexistante #}
+            <form action="{{ path('app_track_show') }}" method="GET">
                 <input type="text" name="search" placeholder="Entrez le nom d’un artiste..." required>
                 <button type="submit">Rechercher</button>
             </form>

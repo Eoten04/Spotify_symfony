@@ -42,17 +42,22 @@
         </style>
     </head>
     <body>
-            <a href="{{ path('app_track') }}" class="back-btn">Retour à la recherche</a>
-            <h1>Résultat pour "{{ artist }}"</h1>
+        <a href="{{ path('app_track_index') }}" class="back-btn">Retour à la recherche</a>
+        <h1>Résultats pour "{{ search }}"</h1>
 
-            {% for item in data %}
-                <a href="https://open.spotify.com/intl-fr/track/{{ item.id }}" target="_blank" class="track-link">
-                    {{ item.name }}
-                </a>
-                <br/>
-            {% else %}
-                <p>Aucun résultat trouvé.</p>
+        {% if results is defined and results|length > 0 %}
+            <ul style="list-style:none;padding:0;">
+            {% for item in results %}
+                <li>
+                    <a href="https://open.spotify.com/intl-fr/track/{{ item.id }}" target="_blank" class="track-link">
+                        {{ item.name }}
+                    </a>
+                </li>
             {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucun résultat trouvé.</p>
+        {% endif %}
 
         </body>
 </html>
