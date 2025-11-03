@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TrackRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -60,12 +62,14 @@ class Track
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $pictureLink = null;
 
-//    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'tracks')]
-//    private Collection $users;
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'tracks')]
+    #[ORM\JoinTable(name: 'users_tracks')]
+    private Collection $users;
+
 
     public function __construct()
     {
-//        $this->users = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -253,24 +257,24 @@ class Track
         return $this;
     }
 
-//    public function getUsers(): Collection
-//    {
-//        return $this->users;
-//    }
-//
-//    public function addUser(User $user): static
-//    {
-//        if (!$this->users->contains($user)) {
-//            $this->users->add($user);
-//        }
-//
-//        return $this;
-//    }
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
 
-//    public function removeUser(User $user): static
-//    {
-//        $this->users->removeElement($user);
-//
-//        return $this;
-//    }
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        $this->users->removeElement($user);
+
+        return $this;
+    }
 }

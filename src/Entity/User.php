@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -100,4 +102,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // @deprecated, to be removed when upgrading to Symfony 8
     }
+
+    #[ORM\ManyToMany(targetEntity: Track::class, mappedBy: 'users')]
+    private Collection $tracks;
+
+
+    public function __construct()
+    {
+        $this->tracks = new ArrayCollection();
+    }
+
+    public function getTracks(): Collection
+    {
+        return $this->tracks;
+    }
+
+    public function addTrack(Track $track): static
+    {
+        if (!$this->tracks->contains($track)) {
+            $this->tracks->add($track);
+            $track->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrack(Track $track): static
+    {
+        if ($this->tracks->removeElement($track)) {
+            $track->removeUser($this);
+        }
+
+        return $this;
+    }
+
 }
