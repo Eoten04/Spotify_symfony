@@ -45,7 +45,8 @@ class TrackController extends AbstractController
             return new JsonResponse(['error' => 'User not logged in'], 401);
         }
 
-        $spotifyId = is_string($spotifyId) ? $this->normalizeSpotifyId(trim($spotifyId)) : $spotifyId;
+        $spotifyId = is_string($spotifyId) ? trim($spotifyId) : $spotifyId;
+
         $track = $em->getRepository(Track::class)->findOneBy(['spotifyId' => $spotifyId]);
 
         if (!$track) {
@@ -59,16 +60,21 @@ class TrackController extends AbstractController
 
         if ($track->getUsers()->contains($user)) {
             $track->removeUser($user);
+            $user->removeTrack($track);
             $status = 'unliked';
         } else {
             $track->addUser($user);
+            $user->addTrack($track);
             $status = 'liked';
         }
 
+        $em->persist($track);
+        $em->persist($user);
         $em->flush();
 
         return new JsonResponse(['status' => $status]);
     }
+
 
 
     #[Route('/favorites', name: 'app_track_favorites')]

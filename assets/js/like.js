@@ -10,10 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const albumName = card.querySelector('.track-album').textContent.trim();
             const imageUrl = card.querySelector('img')?.src || null;
 
-            const endpoint = input.checked ? '/tracks/like' : '/tracks/dislike';
-
             try {
-                const response = await fetch(endpoint, {
+                const response = await fetch('/tracks/like', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
