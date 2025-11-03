@@ -141,14 +141,12 @@ class TrackController extends AbstractController
 
     private function normalizeSpotifyId(string $maybeId): string
     {
-        // If it's a full Spotify URL like https://open.spotify.com/track/{id}?si=..., extract the id
         if (str_contains($maybeId, 'open.spotify.com/track/')) {
             $parts = parse_url($maybeId);
             $path = $parts['path'] ?? '';
             $segments = explode('/', trim($path, '/'));
             return $segments[count($segments) - 1] ?? $maybeId;
         }
-        // spotify URI format spotify:track:{id}
         if (str_starts_with($maybeId, 'spotify:track:')) {
             return substr($maybeId, strlen('spotify:track:'));
         }
