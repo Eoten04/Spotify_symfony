@@ -11,11 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const imageUrl = card.querySelector('img')?.src || null;
 
             try {
-                const response = await fetch('/track/like', {
+                const response = await fetch('/tracks/like', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest' // pas obligatoire mais utile
+                        'X-Requested-With': 'XMLHttpRequest'
                     },
                     body: JSON.stringify({
                         trackId,
