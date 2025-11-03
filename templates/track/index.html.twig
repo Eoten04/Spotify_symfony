@@ -6,7 +6,7 @@
     <div class="search">
         {{ render(path('app_include_search_form')) }}
     </div>
-
+    <a class="back-btn" href="{{ path('app_track_favorites') }}">Mes favoris</a>
     {% if tracks is not empty %}
     <h1> Résultat de la recherche</h1>
     <div>

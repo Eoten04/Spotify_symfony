@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes favoris{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <a href="{{ path('app_track_index') }}" class="back-btn">← Retour à la recherche</a>
+        <h1>Mes favoris</h1>
+
+        {% if favorites is not empty %}
+            <div class="tracks-grid">
+                {% for fav in favorites %}
+                    <article class="track-card">
+                        <div class="track-thumb">
+                            {% if fav.pictureLink %}
+                                <img src="{{ fav.pictureLink }}" alt="{{ fav.name }}" loading="lazy">
+                            {% else %}
+                                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="4" fill="#1f2937"/></svg>
+                            {% endif %}
+                        </div>
+                        <div class="track-meta">
+                            <div class="track-title">{{ fav.name }}</div>
+                            <div class="track-artist muted">Spotify ID: {{ fav.spotifyId }}</div>
+                            {% if fav.spotifyUrl %}
+                                <div class="track-album muted"><a href="{{ fav.spotifyUrl }}" target="_blank" rel="noopener">Ouvrir sur Spotify</a></div>
+                            {% endif %}
+                        </div>
+                        <div class="track-actions">
+                            <a class="btn-ghost" href="{{ fav.spotifyUrl }}" target="_blank" rel="noopener">Écouter</a>
+                            <input class="like-checkbox" name="like-checkbox" type="checkbox" id="like-{{ fav.spotifyId }}" checked />
+                            <label class="btn-like" for="like-{{ fav.spotifyId }}" aria-label="J'aime {{ fav.name }}">❤</label>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">Tu n'as pas encore de favoris.</div>
+        {% endif %}
+    </div>
+{% endblock %}

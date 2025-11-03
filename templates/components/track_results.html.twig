@@ -16,7 +16,7 @@
                 </div>
                 <div class="track-actions">
                     <a class="btn-ghost" href="https://open.spotify.com/track/{{ track.id }}" target="_blank" rel="noopener">Écouter</a>
-                    <input class="like-checkbox" name="like-checkbox" type="checkbox" id="like-{{ track.id }}" />
+                    <input class="like-checkbox" name="like-checkbox" type="checkbox" id="like-{{ track.id }}" {% if favoriteIds is defined and (track.id in favoriteIds) %}checked{% endif %} />
                     <label class="btn-like" for="like-{{ track.id }}" aria-label="J'aime {{ track.name }}">❤</label>
                 </div>
             </article>

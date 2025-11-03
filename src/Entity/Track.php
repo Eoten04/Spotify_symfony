@@ -33,9 +33,6 @@ class Track
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $href = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $spotifyId = null;
-
     #[ORM\Column(nullable: true)]
     private ?bool $isLocal = null;
 
@@ -53,6 +50,9 @@ class Track
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $type = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true, unique: true)]
+    private ?string $spotifyId = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $uri = null;

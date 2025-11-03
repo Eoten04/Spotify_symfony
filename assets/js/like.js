@@ -10,8 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const albumName = card.querySelector('.track-album').textContent.trim();
             const imageUrl = card.querySelector('img')?.src || null;
 
+            const endpoint = input.checked ? '/tracks/like' : '/tracks/dislike';
+
             try {
-                const response = await fetch('/tracks/like', {
+                const response = await fetch(endpoint, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -28,16 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const result = await response.json();
 
-                if (result.status === 'liked') {
-                    console.log(`❤️ ${trackName} ajouté`);
-                } else if (result.status === 'unliked') {
-                    console.log(`💔 ${trackName} retiré`);
-                } else if (result.error) {
-                    console.warn(result.error);
-                }
-
             } catch (err) {
                 console.error('Erreur:', err);
+                input.checked = !input.checked;
             }
         });
     });
